@@ -17,24 +17,14 @@
       <div class="container center" v-if="!signedIn">
         <h1 class="display-2 signIn">Looks like you haven't signed in yet😢</h1>
         <hr />
-        <v-form
-          ref="form"
-          v-model="valid"
-          lazy-validation
-          class="signInForm mx-auto"
-        >
-          <v-text-field
-            v-model="email"
-            :rules="emailRules"
-            label="E-mail"
-            required
-          ></v-text-field>
+        <v-form ref="form" class="signInForm mx-auto">
+          <v-text-field v-model="email" label="E-mail" required></v-text-field>
 
           <v-text-field
             v-model="password"
             :counter="10"
-            :rules="nameRules"
             label="Password"
+            type="password"
             required
           ></v-text-field>
 
@@ -120,5 +110,10 @@ export default {
 .signInForm {
   padding: 30px;
   width: 50%;
+}
+
+.back {
+  margin-top: 4rem;
+  margin-left: 2rem;
 }
 </style>
