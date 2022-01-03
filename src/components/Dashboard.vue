@@ -9,7 +9,7 @@
           :key="lesson.id"
           @click="viewLesson(lesson.id)"
         >
-          <v-chip class="ma-2" color="primary" outlined>{{
+          <v-chip class="ma-2" color="secondary" outlined>{{
             `${lesson.data.category} - ${lesson.data.subCategory}`
           }}</v-chip>
           <v-list-item-content class="">
@@ -27,6 +27,11 @@
         </v-list-item>
       </v-list-item-group>
     </v-list>
+    <router-link v-bind:to="{ name: 'add-lesson' }">
+      <v-btn class="fab" fab color="secondary" x-large absolute bottom right>
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+    </router-link>
   </div>
 </template>
 
@@ -61,10 +66,14 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.display-4 {
-  margin: 10px 10px 10px 50px;
-}
 .mx-auto {
   margin-top: 1rem;
+}
+
+.fab {
+  margin-right: 10rem;
+  margin-bottom: 10rem;
+  width: 6rem;
+  height: 6rem;
 }
 </style>

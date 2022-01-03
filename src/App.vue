@@ -7,14 +7,12 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
+      <v-btn text @click="signIn" v-if="!signedIn">
         <span class="mr-2">Sign In</span>
-        <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
+      <!-- <v-btn text @click="signOut" v-if="signedIn">
+        <span class="mr-2">Sign Out</span>
+      </v-btn> -->
     </v-app-bar>
 
     <v-main>
@@ -27,14 +25,29 @@
 export default {
   name: "App",
 
-  data: () => ({
-    //
-  }),
+  data() {
+    return {
+      signedIn: false,
+    };
+  },
+  // methods: {
+  //   signIn: function () {
+  //     this.signedIn = !this.signedIn;
+  //   },
+  // },
 };
 </script>
 
 <style lang="scss">
 .link {
   text-decoration: none;
+}
+
+.display-4 {
+  margin: 25px 10px 15px 50px;
+}
+
+.display-2 {
+  margin-left: 20px;
 }
 </style>
