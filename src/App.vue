@@ -7,34 +7,86 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn text @click="signIn" v-if="!signedIn">
-        <span class="mr-2">Sign In</span>
-      </v-btn>
-      <!-- <v-btn text @click="signOut" v-if="signedIn">
+      <v-btn text @click="signOut" v-if="signedIn">
         <span class="mr-2">Sign Out</span>
-      </v-btn> -->
+      </v-btn>
     </v-app-bar>
 
     <v-main>
-      <router-view />
+      <router-view v-if="signedIn" />
+      <div class="container center" v-if="!signedIn">
+        <h1 class="display-2 signIn">Looks like you haven't signed in yet😢</h1>
+        <hr />
+        <v-form
+          ref="form"
+          v-model="valid"
+          lazy-validation
+          class="signInForm mx-auto"
+        >
+          <v-text-field
+            v-model="email"
+            :rules="emailRules"
+            label="E-mail"
+            required
+          ></v-text-field>
+
+          <v-text-field
+            v-model="password"
+            :counter="10"
+            :rules="nameRules"
+            label="Password"
+            required
+          ></v-text-field>
+
+          <v-btn color="secondary" class="mr-4" @click="signIn">
+            Sign In
+          </v-btn>
+        </v-form>
+      </div>
     </v-main>
   </v-app>
 </template>
 
 <script>
+import firebase from "./firebase";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+
 export default {
   name: "App",
 
   data() {
     return {
       signedIn: false,
+      email: "",
+      password: "",
     };
   },
-  // methods: {
-  //   signIn: function () {
-  //     this.signedIn = !this.signedIn;
-  //   },
-  // },
+  methods: {
+    signIn: function () {
+      this.signedIn = true;
+      signInWithEmailAndPassword(firebase.auth, this.email, this.password)
+        .then((userCredential) => {
+          // Signed in
+          const user = userCredential.user;
+          // ...
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.error("Error signing in: ", errorCode, errorMessage);
+        });
+      this.$forceUpdate();
+    },
+    signOut: function () {
+      this.signedIn = false;
+      signOut(firebase.auth).catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error("Error signing out: ", errorCode, errorMessage);
+      });
+      this.$mount();
+    },
+  },
 };
 </script>
 
@@ -49,5 +101,24 @@ export default {
 
 .display-2 {
   margin-left: 20px;
+}
+
+.display-2.signIn {
+  margin-left: 20px;
+  margin-bottom: 1rem;
+}
+
+.container.center {
+  margin-top: 20rem;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  width: 25%;
+  height: 50%;
+}
+
+.signInForm {
+  padding: 30px;
+  width: 50%;
 }
 </style>
