@@ -14,7 +14,7 @@
 
     <v-main>
       <router-view v-if="signedIn" />
-      <div class="container center" v-if="!signedIn">
+      <div class="container center mx-auto" v-if="!signedIn">
         <h1 class="display-2 signIn">Looks like you haven't signed in yet😢</h1>
         <hr />
         <v-form ref="form" class="signInForm mx-auto">
@@ -99,10 +99,8 @@ export default {
 }
 
 .container.center {
-  margin-top: 20rem;
   text-align: center;
-  justify-content: center;
-  align-items: center;
+  margin-top: 20rem;
   width: 25%;
   height: 50%;
 }

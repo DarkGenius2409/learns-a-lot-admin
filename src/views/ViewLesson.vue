@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container mx-auto">
     <h1 class="display-4">View Lesson</h1>
     <hr />
     <div class="container inside">

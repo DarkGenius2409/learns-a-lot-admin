@@ -1,8 +1,8 @@
 <template>
-  <div class="container">
+  <div class="container mx-auto">
     <h1 class="display-4">Dashboard</h1>
     <hr />
-    <v-list class="mx-auto">
+    <v-list class="mx-auto list">
       <v-list-item-group>
         <v-list-item
           v-for="lesson in lessons"
@@ -66,13 +66,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.mx-auto {
+.list {
   margin-top: 1rem;
 }
 
 .fab {
-  margin-right: 10rem;
-  margin-bottom: 10rem;
+  margin-right: 7rem;
+  margin-bottom: 7rem;
   width: 6rem;
   height: 6rem;
 }
