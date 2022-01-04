@@ -114,4 +114,9 @@ export default {
   margin-top: 4rem;
   margin-left: 2rem;
 }
+
+.container {
+  margin: 0px 624px;
+  padding: 12px;
+}
 </style>
