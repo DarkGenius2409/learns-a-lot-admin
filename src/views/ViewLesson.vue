@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto">
+  <div class="container parent">
     <h1 class="display-4">View Lesson</h1>
     <hr />
     <div class="container inside">
@@ -31,6 +31,34 @@
           required
           :disabled="!editing"
         ></v-text-field>
+
+        <v-chip-group class="center">
+          <h1 class="headline center">Further Links:</h1>
+          <v-chip
+            v-for="(link, i) in lessonFurtherLinks"
+            :key="i"
+            class="links"
+            close
+            @click:close="deleteLink"
+          >
+            <v-text-field
+              v-model="lessonFurtherLinks[i]"
+              required
+              :disabled="!editing"
+            ></v-text-field>
+          </v-chip>
+          <v-btn
+            v-if="editing"
+            color="secondary"
+            x-small
+            rounded
+            dark
+            class="addLink"
+            @click="addLink()"
+          >
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+        </v-chip-group>
 
         <div class="container inside questions">
           <v-card
@@ -155,6 +183,7 @@ export default {
       lessonSubCategory: "",
       lessonUrl: "",
       lessonQuiz: [],
+      lessonFurtherLinks: [],
       editing: false,
     };
   },
@@ -167,6 +196,7 @@ export default {
       this.lessonSubCategory = lesson.subCategory;
       this.lessonUrl = lesson.url;
       this.lessonQuiz = lesson.quiz;
+      this.lessonFurtherLinks = lesson.furtherLinks;
     });
   },
   methods: {
@@ -181,7 +211,12 @@ export default {
     deleteQuestion: function (i) {
       this.lessonQuiz.splice(i, 1);
     },
-
+    addLink: function () {
+      this.lessonFurtherLinks.push({ link: "", id: uniqid() });
+    },
+    deleteLink: function (i) {
+      this.lessonFurtherLinks.splice(i, 1);
+    },
     updateLesson: async function () {
       const lesson = {
         title: this.lessonName,
@@ -232,5 +267,25 @@ export default {
 .edit {
   margin-bottom: 4rem;
   margin-right: 2rem;
+}
+
+.links {
+  padding: 1.5rem;
+  margin: 4px 8px 4px 8px;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.headline {
+  margin-right: 8px;
+}
+
+.addLink {
+  height: 100%;
 }
 </style>

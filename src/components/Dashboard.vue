@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto">
+  <div class="container parent">
     <h1 class="display-4">Dashboard</h1>
     <hr />
     <v-list class="mx-auto list">

@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto">
+  <div class="container parent">
     <h1 class="display-4">Add Lesson</h1>
     <hr />
     <div class="container inside">
@@ -23,6 +23,34 @@
         ></v-text-field>
 
         <v-text-field v-model="lessonUrl" label="URL" required></v-text-field>
+
+        <v-chip-group class="center">
+          <h1 class="headline center">Further Links:</h1>
+          <v-chip
+            v-for="(link, i) in lessonFurtherLinks"
+            :key="i"
+            class="links"
+            close
+            @click:close="deleteLink"
+          >
+            <v-text-field
+              v-model="lessonFurtherLinks[i]"
+              required
+              :disabled="!editing"
+            ></v-text-field>
+          </v-chip>
+          <v-btn
+            v-if="editing"
+            color="secondary"
+            x-small
+            rounded
+            dark
+            class="addLink"
+            @click="addLink()"
+          >
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+        </v-chip-group>
 
         <div class="container inside questions">
           <v-card
@@ -133,6 +161,7 @@ export default {
           answer: "",
         },
       ],
+      lessonFurtherLinks: [{ link: "", id: uniqid() }],
     };
   },
   methods: {
@@ -147,7 +176,12 @@ export default {
     deleteQuestion: function (i) {
       this.lessonQuiz.splice(i, 1);
     },
-
+    addLink: function () {
+      this.lessonFurtherLinks.push({ link: "", id: uniqid() });
+    },
+    deleteLink: function (i) {
+      this.lessonFurtherLinks.splice(i, 1);
+    },
     createLesson: async function () {
       const lesson = {
         title: this.lessonName,
@@ -155,6 +189,7 @@ export default {
         subCategory: this.lessonSubCategory,
         url: this.lessonUrl,
         quiz: this.lessonQuiz,
+        furtherLinks: this.lessonFurtherLinks,
       };
 
       await setDoc(doc(firebase.db, "lessons", uniqid()), lesson);
@@ -190,5 +225,25 @@ export default {
 
 .newQuestion {
   border-radius: 1rem;
+}
+
+.links {
+  padding: 1.5rem;
+  margin: 4px 8px 4px 8px;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.headline {
+  margin-right: 8px;
+}
+
+.addLink {
+  height: 100%;
 }
 </style>

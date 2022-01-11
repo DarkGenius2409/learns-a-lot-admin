@@ -22,7 +22,6 @@
 
           <v-text-field
             v-model="password"
-            :counter="10"
             label="Password"
             type="password"
             required
@@ -115,8 +114,8 @@ export default {
   margin-left: 2rem;
 }
 
-.container {
-  margin: 0px 624px;
-  padding: 12px;
+.parent {
+  margin-left: 8rem;
+  margin-right: 8rem;
 }
 </style>
