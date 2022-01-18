@@ -39,7 +39,7 @@
             :key="i"
             class="links"
             close
-            @click:close="deleteLink"
+            @click:close="deleteLink(i)"
           >
             <v-text-field
               v-model="lessonFurtherLinks[i]"
@@ -55,6 +55,34 @@
             dark
             class="addLink"
             @click="addLink()"
+          >
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+        </v-chip-group>
+
+        <v-chip-group class="center">
+          <h1 class="headline center">Further Link Names:</h1>
+          <v-chip
+            v-for="(link, i) in lessonFurtherLinkNames"
+            :key="i"
+            class="links"
+            close
+            @click:close="deleteLinkName(i)"
+          >
+            <v-text-field
+              v-model="lessonFurtherLinkNames[i]"
+              required
+              :disabled="!editing"
+            ></v-text-field>
+          </v-chip>
+          <v-btn
+            v-if="editing"
+            color="secondary"
+            x-small
+            rounded
+            dark
+            class="addLink"
+            @click="addLinkName()"
           >
             <v-icon>mdi-plus</v-icon>
           </v-btn>
@@ -184,6 +212,7 @@ export default {
       lessonUrl: "",
       lessonQuiz: [],
       lessonFurtherLinks: [],
+      lessonFurtherLinkNames: [],
       editing: false,
     };
   },
@@ -197,6 +226,8 @@ export default {
       this.lessonUrl = lesson.url;
       this.lessonQuiz = lesson.quiz;
       this.lessonFurtherLinks = lesson.furtherLinks;
+      this.lessonFurtherLinkNames = lesson.furtherLinkNames;
+      console.log(this.lessonFurtherLinks);
     });
   },
   methods: {
@@ -209,13 +240,26 @@ export default {
       });
     },
     deleteQuestion: function (i) {
-      this.lessonQuiz.splice(i, 1);
+      if (this.lessonQuiz.length > 1) {
+        this.lessonQuiz.splice(i, 1);
+      }
     },
     addLink: function () {
-      this.lessonFurtherLinks.push({ link: "", id: uniqid() });
+      this.lessonFurtherLinks.push("");
+      console.log(this.lessonFurtherLinks[this.lessonFurtherLinks.length - 1]);
     },
     deleteLink: function (i) {
-      this.lessonFurtherLinks.splice(i, 1);
+      if (this.lessonFurtherLinks.length > 1) {
+        this.lessonFurtherLinks.splice(i, 1);
+      }
+    },
+    addLinkName: function () {
+      this.lessonFurtherLinkNames.push("");
+    },
+    deleteLinkName: function (i) {
+      if (this.lessonFurtherLinkNames.length > 1) {
+        this.lessonFurtherLinkNames.splice(i, 1);
+      }
     },
     updateLesson: async function () {
       const lesson = {
@@ -224,6 +268,8 @@ export default {
         subCategory: this.lessonSubCategory,
         url: this.lessonUrl,
         quiz: this.lessonQuiz,
+        furtherLinks: this.lessonFurtherLinks,
+        furtherLinkNames: this.lessonFurtherLinkNames,
       };
 
       await setDoc(doc(firebase.db, "lessons", this.$route.params.id), lesson);
@@ -287,5 +333,8 @@ export default {
 
 .addLink {
   height: 100%;
+  vertical-align: baseline;
+  position: relative;
+  top: 32.5%;
 }
 </style>

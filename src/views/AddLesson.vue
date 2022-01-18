@@ -27,26 +27,50 @@
         <v-chip-group class="center">
           <h1 class="headline center">Further Links:</h1>
           <v-chip
-            v-for="(link, i) in lessonFurtherLinks"
+            v-for="i in lessonFurtherLinks"
             :key="i"
             class="links"
             close
-            @click:close="deleteLink"
+            @click:close="deleteLink(i)"
           >
             <v-text-field
               v-model="lessonFurtherLinks[i]"
               required
-              :disabled="!editing"
             ></v-text-field>
           </v-chip>
           <v-btn
-            v-if="editing"
             color="secondary"
             x-small
             rounded
             dark
             class="addLink"
             @click="addLink()"
+          >
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+        </v-chip-group>
+
+        <v-chip-group class="center">
+          <h1 class="headline center">Further Link Names:</h1>
+          <v-chip
+            v-for="i in lessonFurtherLinkNames"
+            :key="i"
+            class="links"
+            close
+            @click:close="deleteLinkName(i)"
+          >
+            <v-text-field
+              v-model="lessonFurtherLinkNames[i]"
+              required
+            ></v-text-field>
+          </v-chip>
+          <v-btn
+            color="secondary"
+            x-small
+            rounded
+            dark
+            class="addLink"
+            @click="addLinkName()"
           >
             <v-icon>mdi-plus</v-icon>
           </v-btn>
@@ -161,7 +185,8 @@ export default {
           answer: "",
         },
       ],
-      lessonFurtherLinks: [{ link: "", id: uniqid() }],
+      lessonFurtherLinks: [""],
+      lessonFurtherLinkNames: [""],
     };
   },
   methods: {
@@ -177,10 +202,16 @@ export default {
       this.lessonQuiz.splice(i, 1);
     },
     addLink: function () {
-      this.lessonFurtherLinks.push({ link: "", id: uniqid() });
+      this.lessonFurtherLinks.push("");
     },
     deleteLink: function (i) {
       this.lessonFurtherLinks.splice(i, 1);
+    },
+    addLinkName: function () {
+      this.lessonFurtherLinkNames.push("");
+    },
+    deleteLinkName: function (i) {
+      this.lessonFurtherLinkNames.splice(i, 1);
     },
     createLesson: async function () {
       const lesson = {
@@ -245,5 +276,8 @@ export default {
 
 .addLink {
   height: 100%;
+  vertical-align: baseline;
+  position: relative;
+  top: 32.5%;
 }
 </style>
